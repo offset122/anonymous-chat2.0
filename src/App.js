@@ -7,15 +7,16 @@ import { getFirestore, collection, addDoc, query, orderBy, limit, serverTimestam
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
-// Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyCyD_l2HBg_a6dFrSszxFfOW8MBRwzdBSg",
-  authDomain: "anonymous-chat-f0e45.firebaseapp.com",
-  projectId: "anonymous-chat-f0e45",
-  storageBucket: "anonymous-chat-f0e45.appspot.com",
-  messagingSenderId: "749419331909",
-  appId: "1:749419331909:web:c0bd91415268da56d5fe2c",
-  measurementId: "G-1WSQ90S54W",
+  apiKey: "AIzaSyDOcXz6fxczJpzE7VyiNbQOXCif8b-rDXI",
+  authDomain: "anonymous-chat-app-ff02c.firebaseapp.com",
+  databaseURL: "https://anonymous-chat-app-ff02c-default-rtdb.firebaseio.com",
+  projectId: "anonymous-chat-app-ff02c",
+  storageBucket: "anonymous-chat-app-ff02c.appspot.com",
+  messagingSenderId: "823082117322",
+  appId: "1:823082117322:web:e6e69ee15c772e760e2c33",
+  measurementId: "G-E8D2ZJTFCK"
 };
 
 // Initialize Firebase
