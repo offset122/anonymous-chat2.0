@@ -1,10 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { AppBar, Toolbar, Typography, Button, Container, Box, TextField, Snackbar, Grid, Paper } from '@mui/material';
+import { AppBar, Toolbar, Typography, Button, Container, Box, TextField, Snackbar, Grid, Paper, IconButton, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Footer from "./Footer";
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
-import { getFirestore, collection, addDoc, query, orderBy, limit, serverTimestamp } from "firebase/firestore";
+import { getFirestore, collection, addDoc, deleteDoc, doc, query, orderBy, limit, serverTimestamp } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
@@ -103,6 +104,8 @@ function ChatRoom() {
   const q = query(messagesRef, orderBy("createdAt"), limit(25));
   const [messages] = useCollectionData(q, { idField: "id" });
   const [formValue, setFormValue] = useState("");
+  const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const [messageToDelete, setMessageToDelete] = useState(null);
 
   useEffect(() => {
     dummy.current?.scrollIntoView({ behavior: "smooth" });
@@ -123,11 +126,21 @@ function ChatRoom() {
     dummy.current.scrollIntoView({ behavior: "smooth" });
   };
 
+  const handleDeleteMessage = async (id) => {
+    await deleteDoc(doc(firestore, "messages", id));
+    setOpenDeleteDialog(false);
+  };
+
   return (
     <Grid container spacing={2} sx={{ mt: 2 }}>
       <Grid item xs={12} md={8} lg={6}>
         <Paper elevation={3} sx={{ maxHeight: "400px", overflowY: "auto", padding: 2, borderRadius: 2 }}>
-          {messages && messages.map((msg) => <ChatMessage key={msg.id} message={msg} />)}
+          {messages && messages.map((msg) => (
+            <ChatMessage key={msg.id} message={msg} onDelete={() => {
+              setMessageToDelete(msg.id);
+              setOpenDeleteDialog(true);
+            }} />
+          ))}
           <span ref={dummy}></span>
         </Paper>
         <form onSubmit={sendMessage} style={{ display: "flex", marginTop: "16px" }}>
@@ -144,11 +157,32 @@ function ChatRoom() {
           </Button>
         </form>
       </Grid>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog
+        open={openDeleteDialog}
+        onClose={() => setOpenDeleteDialog(false)}
+      >
+        <DialogTitle>Delete Message</DialogTitle>
+        <DialogContent>
+          <Typography>Are you sure you want to delete this message?</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpenDeleteDialog(false)} color="primary">
+            Cancel
+          </Button>
+          <Button onClick={() => {
+            if (messageToDelete) handleDeleteMessage(messageToDelete);
+          }} color="secondary">
+            Delete
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Grid>
   );
 }
 
-function ChatMessage({ message }) {
+function ChatMessage({ message, onDelete }) {
   const { text, uid, photoURL } = message;
 
   return (
@@ -179,7 +213,12 @@ function ChatMessage({ message }) {
           marginRight: uid === auth.currentUser.uid ? 0 : 8,
         }}
       />
-      <Typography variant="body1" sx={{ wordWrap: "break-word" }}>{text}</Typography>
+      <Typography variant="body1" sx={{ wordWrap: "break-word", flexGrow: 1 }}>{text}</Typography>
+      {uid === auth.currentUser.uid && (
+        <IconButton onClick={onDelete} size="small" color="inherit">
+          <DeleteIcon fontSize="small" />
+        </IconButton>
+      )}
     </Box>
   );
 }
