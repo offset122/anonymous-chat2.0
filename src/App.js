@@ -63,7 +63,7 @@ function SignIn() {
       <button className="sign-in" onClick={signInWithGoogle}>
         Sign in with Google
       </button>
-      <h1 className="text-3xl mt-5 text-green-600">Welcome babe</h1>
+      <h1 className="text-3xl mt-5 text-green-600">Welcome , Let's make New Friends</h1>
     </>
   );
 }
