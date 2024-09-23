@@ -8,8 +8,16 @@ import { getFirestore, collection, addDoc, query, orderBy, limit, serverTimestam
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  // Your Firebase config
+  apiKey: "AIzaSyCcbs7_KRlWGnTrMj6fgTNXAdV9VvtfsDk",
+  authDomain: "anonymous-chatroom-b7f79.firebaseapp.com",
+  databaseURL: "https://anonymous-chatroom-b7f79-default-rtdb.firebaseio.com",
+  projectId: "anonymous-chatroom-b7f79",
+  storageBucket: "anonymous-chatroom-b7f79.appspot.com",
+  messagingSenderId: "54549251555",
+  appId: "1:54549251555:web:c1e99745ce82f5670d8cd6",
+  measurementId: "G-MPB2SND8XR"
 };
 
 const app = initializeApp(firebaseConfig);
