@@ -10,16 +10,6 @@ import { getFirestore, collection, addDoc, deleteDoc, doc, query, orderBy, limit
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useCollectionData } from "react-firebase-hooks/firestore";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDOcXz6fxczJpzE7VyiNbQOXCif8b-rDXI",
-  authDomain: "anonymous-chat-app-ff02c.firebaseapp.com",
-  databaseURL: "https://anonymous-chat-app-ff02c-default-rtdb.firebaseio.com",
-  projectId: "anonymous-chat-app-ff02c",
-  storageBucket: "anonymous-chat-app-ff02c.appspot.com",
-  messagingSenderId: "823082117322",
-  appId: "1:823082117322:web:e6e69ee15c772e760e2c33",
-  measurementId: "G-E8D2ZJTFCK"
-};
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
